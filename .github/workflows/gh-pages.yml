@@ -1,0 +1,81 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: |
+            action/ghostvote-frontend/package-lock.json
+            action/ghostvote-hardhat/package-lock.json
+
+      - name: Derive basePath for Pages
+        id: derive
+        run: |
+          REPO="${{ github.repository }}" # e.g., user/repo or user/user.github.io
+          OWNER="${REPO%%/*}"
+          NAME="${REPO##*/}"
+          if [[ "$NAME" == "${OWNER}.github.io" ]]; then
+            echo "basepath=" >> $GITHUB_OUTPUT
+          else
+            echo "basepath=/${NAME}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Install deps (frontend)
+        working-directory: action/ghostvote-frontend
+        run: npm ci
+
+      - name: Build static (frontend)
+        working-directory: action/ghostvote-frontend
+        env:
+          NEXT_BASE_PATH: ${{ steps.derive.outputs.basepath }}
+          NODE_OPTIONS: --max_old_space_size=4096
+        run: |
+          npm run build
+          # Next export output is under out/ when output: export
+          echo "Using basePath: $NEXT_BASE_PATH"
+
+      - name: Prepare Pages artifact
+        run: |
+          mkdir -p ./_site
+          cp -r action/ghostvote-frontend/out/* ./_site/
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+

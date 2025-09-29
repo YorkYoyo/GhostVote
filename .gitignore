@@ -1,0 +1,24 @@
+node_modules/
+**/node_modules/
+
+# Next.js
+.next/
+out/
+
+# Hardhat
+artifacts/
+cache/
+coverage/
+coverage.json
+fhevmTemp/
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Mac
+.DS_Store
+
+# Pages artifact
+_site/

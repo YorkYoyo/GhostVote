@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Source+Code+Pro:wght@400;500;600&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { font-family: 'Poppins', system-ui, sans-serif; }
+  .code { font-family: 'Source Code Pro', monospace; }
+  
+  html { scroll-behavior: smooth; }
+  
+  body {
+    @apply min-h-screen text-gray-900;
+    background: 
+      radial-gradient(ellipse at top, #e0e7ff 0%, #c7d2fe 50%, #a5b4fc 100%),
+      linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+  }
+}
+
+@layer components {
+  /* Card System */
+  .proposal-card {
+    @apply bg-white/80 border-2 border-indigo-100 rounded-3xl p-8 shadow-xl;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .proposal-card:hover {
+    @apply border-indigo-200 shadow-2xl -translate-y-2;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+  
+  /* Buttons */
+  .btn-vote {
+    @apply px-8 py-4 rounded-full font-bold text-base tracking-wide transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .btn-primary {
+    @apply btn-vote bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white hover:from-indigo-700 hover:via-purple-700 hover:to-pink-700;
+  }
+  
+  .btn-secondary {
+    @apply btn-vote bg-white text-indigo-700 border-2 border-indigo-200 hover:bg-indigo-50 hover:border-indigo-300;
+  }
+  
+  .btn-success {
+    @apply btn-vote bg-gradient-to-r from-emerald-500 to-teal-600 text-white hover:from-emerald-600 hover:to-teal-700;
+  }
+  
+  .btn-danger {
+    @apply btn-vote bg-gradient-to-r from-rose-500 to-pink-600 text-white hover:from-rose-600 hover:to-pink-700;
+  }
+  
+  /* Input */
+  .input-proposal {
+    @apply bg-white/60 border-2 border-indigo-100 rounded-2xl px-6 py-4 text-gray-800 placeholder-gray-500 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100 focus:outline-none transition-all duration-200;
+  }
+  
+  /* Navigation */
+  .nav-item {
+    @apply text-indigo-700 hover:text-indigo-900 px-6 py-3 rounded-full transition-all duration-200 font-semibold hover:bg-white/40;
+  }
+  
+  .nav-item.active {
+    @apply text-white bg-gradient-to-r from-indigo-600 to-purple-600;
+  }
+  
+  /* Typography */
+  .heading-gradient {
+    @apply font-bold tracking-tight;
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #db2777 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .text-soft {
+    @apply text-gray-600 leading-relaxed;
+  }
+  
+  /* Category Tags */
+  .category-tech {
+    @apply px-4 py-2 rounded-full text-sm font-semibold bg-gradient-to-r from-blue-100 to-cyan-100 text-blue-800 border-2 border-blue-200;
+  }
+  
+  .category-social {
+    @apply px-4 py-2 rounded-full text-sm font-semibold bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 border-2 border-green-200;
+  }
+  
+  .category-creative {
+    @apply px-4 py-2 rounded-full text-sm font-semibold bg-gradient-to-r from-purple-100 to-pink-100 text-purple-800 border-2 border-purple-200;
+  }
+  
+  .category-business {
+    @apply px-4 py-2 rounded-full text-sm font-semibold bg-gradient-to-r from-orange-100 to-red-100 text-orange-800 border-2 border-orange-200;
+  }
+  
+  /* Status Badges */
+  .status-active {
+    @apply px-3 py-1 rounded-full text-xs font-bold bg-green-500 text-white;
+  }
+  
+  .status-pending {
+    @apply px-3 py-1 rounded-full text-xs font-bold bg-yellow-500 text-white;
+  }
+  
+  .status-closed {
+    @apply px-3 py-1 rounded-full text-xs font-bold bg-gray-500 text-white;
+  }
+}
+
+@keyframes bounce-gentle {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.33); }
+  40%, 50% { opacity: 1; }
+  100% { opacity: 0; transform: scale(1.33); }
+}
+
+.animate-bounce-gentle {
+  animation: bounce-gentle 3s ease-in-out infinite;
+}
+
+.pulse-ring {
+  animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+}
