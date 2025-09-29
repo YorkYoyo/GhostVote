@@ -29,8 +29,8 @@ jobs:
           node-version: 20
           cache: npm
           cache-dependency-path: |
-            action/ghostvote-frontend/package-lock.json
-            action/ghostvote-hardhat/package-lock.json
+            ghostvote-frontend/package-lock.json
+            ghostvote-hardhat/package-lock.json
 
       - name: Derive basePath for Pages
         id: derive
@@ -45,11 +45,11 @@ jobs:
           fi
 
       - name: Install deps (frontend)
-        working-directory: action/ghostvote-frontend
+        working-directory: ghostvote-frontend
         run: npm ci
 
       - name: Build static (frontend)
-        working-directory: action/ghostvote-frontend
+        working-directory: ghostvote-frontend
         env:
           NEXT_BASE_PATH: ${{ steps.derive.outputs.basepath }}
           NODE_OPTIONS: --max_old_space_size=4096
@@ -61,7 +61,7 @@ jobs:
       - name: Prepare Pages artifact
         run: |
           mkdir -p ./_site
-          cp -r action/ghostvote-frontend/out/* ./_site/
+          cp -r ghostvote-frontend/out/* ./_site/
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
